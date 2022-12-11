@@ -30,11 +30,11 @@
         <input type="text" name="do"  th:value="*{value_price_do}" id="do">
         <br>
         <br>
-        <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
+        <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price" th:checked="${value_price == 'sorted_by_ascending_price'}">
         <label for="ascending_price">Отсортировать по возрастанию цены</label>
         <br>
         <br>
-        <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price">
+        <input type="radio" id="descending_price" name="price" value="sorted_by_descending_price" th:checked="${value_price == 'sorted_by_descending_price'}">
         <label for="descending_price">Отсортировать по убыванию цены</label>
         <p>Категория товаров: </p>
         <input type="radio" id="furniture" name="category" value="furniture">
