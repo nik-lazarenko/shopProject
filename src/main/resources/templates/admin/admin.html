@@ -2,33 +2,71 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Админ панель</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
+<div class="container text-center">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/product">Магазин</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="/product">Товары</a>
+                    <a class="nav-link" href="/auth/login">Авторизация</a>
+                    <a class="nav-link" th:href="@{/cart}">Корзина</a>
+                    <a class="nav-link" th:href="@{/admin/orders/search}">Заказы</a>
+                    <a class="nav-link" href="/admin/person">Пользователи</a>
+                    <a class="nav-link" href="/admin/product/add">Добавить товар</a>
+                    <form class="nav-link" method="get" th:action="@{/auth/password/changepersonal}">
+                        <input type="submit" value="Изменить свой пароль">
+                    </form>
+                    <form class="nav-link" method="post" th:action="@{/logout}">
+                        <input type="submit" value="Выйти из личного кабинета">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
 <h3>Личный кабинет администратора</h3>
-<form th:method="POST" th:action="@{/logout}">
-    <input type="submit" value="Выйти из личного кабинета">
-</form>
-<form method="get" th:action="@{/auth/password/changepersonal}">
-    <input type="submit" value="Изменить свой пароль (Personal)">
-</form>
-<br>
-<a href="/admin/person">Пользователи</a>
-<br>
-<a href="/admin/product/add">Добавить товар</a>
-<h3>Каталог товаров: </h3>
-<hr>
-<div th:each="product : ${products}">
-    <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
-    <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
-    <p th:text="'Описание: ' + ${product.getDescription()}"></p>
-    <p th:text="'Цена: ' + ${product.getPrice()}"></p>
-    <p th:text="'Склад: ' + ${product.getWarehouse()}"></p>
-    <p th:text="'Продавец: ' + ${product.getSeller()}"></p>
-    <p th:text="'Категория товара: ' + ${product.getCategory().getName()}"></p>
-    <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}">Редактировать товар</a>
-    <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}">Удалить товар</a>
-    <hr>
+<!--<form th:method="POST" th:action="@{/logout}">-->
+<!--    <input type="submit" value="Выйти из личного кабинета">-->
+<!--</form>-->
+<!--<form method="get" th:action="@{/auth/password/changepersonal}">-->
+<!--    <input type="submit" value="Изменить свой пароль (Personal)">-->
+<!--</form>-->
+<!--<br>-->
+<!--<a href="/admin/person">Пользователи</a>-->
+<!--<br>-->
+<!--<a href="/admin/product/add">Добавить товар</a>-->
+<!--<br>-->
+<!--<a href="admin/orders/search">Заказы</a>-->
+    <h3>Каталог товаров: </h3>
+    <div class="row row-cols-1 row-cols-md-1 g-4">
+        <div class="row">
+            <div th:each="product : ${products}" class="card my-3" style="width: 18rem;">
+                <img th:src="'/img/' + ${product.imageList[0].getFileName()}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <div class="m-2">
+                        <p th:text="'Наименование: ' + ${product.getTitle()}" class="card-title"></p>
+                        <p th:text="'Описание: ' + ${product.getDescription()}" class="card-text"></p>
+                        <p th:text="'Цена: ' + ${product.getPrice()}" class="card-text"></p>
+                        <p th:text="'Склад: ' + ${product.getWarehouse()}" class="card-text"></p>
+                        <p th:text="'Продавец: ' + ${product.getSeller()}" class="card-text"></p>
+                        <p th:text="'Категория товара: ' + ${product.getCategory().getName()}" class="card-text"></p>
+                        <a th:href="@{/admin/product/edit/{id}(id=${product.getId()})}" class="btn btn-primary">Редактировать товар</a>
+                        <a th:href="@{/admin/product/delete/{id}(id=${product.getId()})}" class="btn btn-primary">Удалить товар</a>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -212,6 +212,7 @@ public class UserController {
         model.addAttribute("value_price_ot", ot);
         model.addAttribute("value_price_do", Do);
         model.addAttribute("products", productService.getAllProduct());
+        model.addAttribute("value_price", price);
         return "/user/index";
     }
 }

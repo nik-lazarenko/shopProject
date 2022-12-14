@@ -5,6 +5,7 @@ import com.example.springsecurityapplication.models.Person;
 import com.example.springsecurityapplication.models.Product;
 import com.example.springsecurityapplication.repositories.CategoryRepository;
 import com.example.springsecurityapplication.security.PersonDetails;
+import com.example.springsecurityapplication.services.OrderService;
 import com.example.springsecurityapplication.services.PersonService;
 import com.example.springsecurityapplication.services.ProductService;
 import com.example.springsecurityapplication.util.ProductValidator;
@@ -36,13 +37,15 @@ public class AdminController {
 
     private final CategoryRepository categoryRepository;
     private final PersonService personService;
+    private final OrderService orderService;
 
     @Autowired
-    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, PersonService personService) {
+    public AdminController(ProductValidator productValidator, ProductService productService, CategoryRepository categoryRepository, PersonService personService, OrderService orderService) {
         this.productValidator = productValidator;
         this.productService = productService;
         this.categoryRepository = categoryRepository;
         this.personService = personService;
+        this.orderService = orderService;
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN') and hasRole('')")
@@ -267,8 +270,24 @@ public class AdminController {
         } else if (sortingAndSearchingAndFiltersOptions.equals("role")) {
             model.addAttribute("person", personService.getPersonRole(value));
 
-
         }
         return "person/SortingAndSearchingAndFilters";
+    }
+
+    // поиск по номеру заказа
+
+    @GetMapping("/orders/search")
+    public String searchOrder(){
+        return "admin/searchOrder";
+    }
+
+    @PostMapping("/orders/search")
+    public String searchOrder(@RequestParam("search") String search, Model model){
+        if (search.length()>4) {
+            search = search.substring(search.length() - 4);
+        }
+        model.addAttribute("orders", orderService.findByLastFourCharacters(search));
+        model.addAttribute("value_search", search);
+        return "admin/searchOrder";
     }
 }
